@@ -1,0 +1,2 @@
+=>composer update (getting vendor folder)
+=>php artisan migrate

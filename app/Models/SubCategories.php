@@ -14,4 +14,8 @@ class SubCategories extends Model
         'sub_category_description',
         'is_deleted'
     ];
+    public function category()
+    {
+        return $this->belongsTo(Categories::class, 'category_id');
+    }
 }

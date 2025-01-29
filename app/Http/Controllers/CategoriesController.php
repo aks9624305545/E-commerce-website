@@ -17,7 +17,8 @@ class CategoriesController extends Controller
         $this->categoriesServices = $categoriesServices;
     }
 
-    public function showCategories(){
+    public function showCategories()
+    {
         try {
             $pageName = $this->name;
             return view('categories.showCategories', compact('pageName'));
@@ -27,7 +28,8 @@ class CategoriesController extends Controller
         }
     }
 
-    public function addUpdateCategories(Request $request){
+    public function addUpdateCategories(Request $request)
+    {
         try {
             if (!empty($request->id)) {
                 $getCategoryData = $this->categoriesServices->getCategoriesById($request->id);
@@ -40,7 +42,8 @@ class CategoriesController extends Controller
         }
     }
 
-    public function getCategories(Request $request){
+    public function getCategories(Request $request)
+    {
         try {
             if ($request->ajax()) {
                 $data = $this->categoriesServices->getCategories();
@@ -52,7 +55,7 @@ class CategoriesController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $btn = '<a href="' . route('addUpdateCategories', ['id' => $row->id]) . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $deleteBtn = '<a href="' . route('deleteCategories', ['id' => $row->id]) . '" class="edit btn btn-danger btn-sm">Delete</a>';
+                        $deleteBtn = '<button onclick="confirmDelete(' . $row->id . ')" class="btn btn-danger btn-sm">Delete</button>';
                         return $btn . $deleteBtn;
                     })
                     ->rawColumns(['action', 'images'])
@@ -65,32 +68,43 @@ class CategoriesController extends Controller
         }
     }
 
-    public function addCategories(CategoriesRequest $CategoriesRequest){
-        
+    public function addCategories(CategoriesRequest $CategoriesRequest)
+    {
+
         try {
             $addCategory = $this->categoriesServices->addCategories($CategoriesRequest);
-    
+
             if (!empty($addCategory)) {
                 return redirect()->route('categories')->with('success', 'Category added successfully.');
             } else {
                 return redirect()->back()->with('error', 'Failed to add category.');
             }
         } catch (\Exception $e) {
-            Log::error('Category addition failed: ' . $e->getMessage());    
+            Log::error('Category addition failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong! Please try again.');
         }
-
     }
 
-    public function editCategories(){
-        
+    public function editCategories() {}
+
+    public function updateCategories(CategoriesRequest $CategoriesRequest)
+    {
+        try {
+            $updatedCategory = $this->categoriesServices->updateCategoriesById($CategoriesRequest);
+
+            if ($updatedCategory) {
+                return redirect()->route('categories')->with('success', 'Category updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update category.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Category update failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong! Please try again.');
+        }
     }
 
-    public function updateCategories(){
-        
-    }
-
-    public function deleteCategories(Request $request){
+    public function deleteCategories(Request $request)
+    {
         try {
             $deleted = $this->categoriesServices->deleteCategoriesById($request->id);
             if ($deleted) {

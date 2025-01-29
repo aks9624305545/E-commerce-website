@@ -31,20 +31,52 @@
     </div>
 </x-app-layout>
 <script type="text/javascript">
-  $(function () {
-        
-    var table = $('.data-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: "{{ route('getCategories') }}",
-        columns: [
-            {data: 'id', name: 'id'},
-            {data: 'category_name', name: 'category_name'},
-            {data: 'images', name: 'images'},
-            {data: 'category_description', name: 'category_description'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
-        ]
+    $(function() {
+
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('getCategories') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'category_name',
+                    name: 'category_name'
+                },
+                {
+                    data: 'images',
+                    name: 'images'
+                },
+                {
+                    data: 'category_description',
+                    name: 'category_description'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
+
     });
-        
-  });
+
+    function confirmDelete(id) {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ url('deleteCategories') }}/" + id;
+            }
+        });
+    }
 </script>

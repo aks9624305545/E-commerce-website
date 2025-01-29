@@ -20,9 +20,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile_image', [ProfileController::class, 'profileImage'])->name('profileImage');
     
-    Route::get('/products', [ProductsController::class, 'showProducts'])->name('products');
     Route::get('/categories', [CategoriesController::class, 'showCategories'])->name('categories');
+    Route::get('/addUpdateCategories/{id?}', [CategoriesController::class, 'addUpdateCategories'])->name('addUpdateCategories');
+    Route::post('/addCategories', [CategoriesController::class, 'addCategories'])->name('addCategories');
+    Route::get('/getCategories', [CategoriesController::class, 'getCategories'])->name('getCategories');
+    Route::get('/deleteCategories/{id?}', [CategoriesController::class, 'deleteCategories'])->name('deleteCategories');
+    
     Route::get('/sub-categories', [SubCategoriesController::class, 'showSubCategories'])->name('subCategories');
+    
+    Route::get('/products', [ProductsController::class, 'showProducts'])->name('products');
 });
 
 require __DIR__.'/auth.php';

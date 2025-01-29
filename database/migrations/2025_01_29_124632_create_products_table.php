@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('sub_category_id')->unsigned();
             $table->string('product_name');
+            $table->string('product_images')->nullable();
             $table->text('product_description')->nullable();
             $table->enum('is_deleted', ['0', '1'])->default('0')->comment("0 = Active, 1 = Deleted"); 
             $table->timestamp('created_at')->useCurrent();

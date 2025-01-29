@@ -1,0 +1,39 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Add Categories') }}
+        </h2>
+    </x-slot>
+    @include('message.flashMessage')
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <form action="{{route('addCategories')}}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="category_name" class="form-label">Category Name</label>
+                        <input type="text" name="category_name" class="form-control" id="category_name" 
+                            placeholder="Category Name" value="{{ old('category_name', $getCategoryData->category_name ?? '') }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_description" class="form-label">Category Description</label>
+                        <textarea name="category_description" class="form-control" placeholder="Category Description" id="category_description" rows="3">{{ old('category_description', $getCategoryData->category_description ?? '') }}</textarea>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" name="category_images" id="inputGroupFile04" 
+                            aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <!-- Display the existing image if available -->
+                        @if(isset($getCategoryData) && $getCategoryData->category_images)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/categories/' . $getCategoryData->category_images) }}" alt="Category Image" width="100">
+                            </div>
+                        @endif
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id')->unsigned();
             $table->string('sub_category_name');
+            $table->string('sub_category_images')->nullable();
             $table->text('sub_category_description')->nullable();
             $table->enum('is_deleted', ['0', '1'])->default('0')->comment("0 = Active, 1 = Deleted"); 
             $table->timestamp('created_at')->useCurrent();

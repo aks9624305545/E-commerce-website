@@ -15,6 +15,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/getUsers', [ProfileController::class, 'getUsers'])->name('getUsers');
+    Route::get('/deleteUsers', [ProfileController::class, 'deleteUsers'])->name('deleteUsers');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -35,6 +37,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/updateSubCategories/{id?}', [SubCategoriesController::class, 'updateSubCategories'])->name('updateSubCategories');
     
     Route::get('/products', [ProductsController::class, 'showProducts'])->name('products');
+    Route::get('/addUpdateProducts/{id?}', [ProductsController::class, 'addUpdateProducts'])->name('addUpdateProducts');
+    Route::post('/addProducts', [ProductsController::class, 'addProducts'])->name('addProducts');
+    Route::get('/getProducts', [ProductsController::class, 'getProducts'])->name('getProducts');
+    Route::get('/deleteProducts/{id?}', [ProductsController::class, 'deleteProducts'])->name('deleteProducts');
+    Route::post('/updateProducts/{id?}', [ProductsController::class, 'updateProducts'])->name('updateProducts');
 });
 
 require __DIR__.'/auth.php';

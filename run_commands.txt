@@ -1,3 +1,10 @@
 =>composer update (getting vendor folder)
 =>php artisan migrate
 =>php artisan storage:link
+
+=>php artisan db:seed
+	->Admin Login
+	-Seeder Login : test123@gmail.com
+	-Seeder Password : Test@123
+
+=>normal user(vendor) registed and login 

@@ -8,11 +8,14 @@ class Products extends Model
 {
     protected $table = 'products';
     protected $fillable = [
-        'category_id',
         'sub_category_id',
-        'product_name',
-        'product_images',
-        'product_description',
+        'products_name',
+        'products_images',
+        'products_description',
         'is_deleted'
     ];
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategories::class, 'sub_category_id');
+    }
 }

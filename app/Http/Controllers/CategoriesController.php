@@ -31,11 +31,13 @@ class CategoriesController extends Controller
     public function addUpdateCategories(Request $request)
     {
         try {
+            $addOrUpdate = 'Add';
             if (!empty($request->id)) {
+                $addOrUpdate = 'Update';
                 $getCategoryData = $this->categoriesServices->getCategoriesById($request->id);
-                return view('categories.addUpdateCategories', compact('getCategoryData'));
+                return view('categories.addUpdateCategories', compact('getCategoryData', 'addOrUpdate'));
             }
-            return view('categories.addUpdateCategories');
+            return view('categories.addUpdateCategories', compact('addOrUpdate'));
         } catch (\Exception $e) {
             Log::error('Error fetching category data for edit: ' . $e->getMessage());
             return redirect()->route('categories')->with('error', 'Something went wrong. Please try again.');
@@ -55,7 +57,7 @@ class CategoriesController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $btn = '<a href="' . route('addUpdateCategories', ['id' => $row->id]) . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $deleteBtn = '<button onclick="confirmDelete(' . $row->id . ')" class="btn btn-danger btn-sm">Delete</button>';
+                        $deleteBtn = '<button onclick="confirmDelete(' . $row->id . ')" class="btn btn-danger btn-sm mt-2">Delete</button>';
                         return $btn . $deleteBtn;
                     })
                     ->rawColumns(['action', 'images'])

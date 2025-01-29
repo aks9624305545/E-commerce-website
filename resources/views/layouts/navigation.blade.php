@@ -11,23 +11,25 @@
                 </div> -->
 
                 <!-- Navigation Links -->
+                @if(Auth::user()->is_vendor == '1')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                @endif
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories')">
+                    <x-nav-link :href="route('categories')" :active="request()->routeIs('categories','addUpdateCategories')">
                         {{ __('Categories') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('subCategories')" :active="request()->routeIs('subCategories')">
+                    <x-nav-link :href="route('subCategories')" :active="request()->routeIs('subCategories','addUpdateSubCategories')">
                         {{ __('Sub Categories') }}
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products','addUpdateProducts')">
                         {{ __('Products') }}
                     </x-nav-link>
                 </div>

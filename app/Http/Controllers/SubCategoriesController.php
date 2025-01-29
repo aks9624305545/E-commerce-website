@@ -34,12 +34,14 @@ class SubCategoriesController extends Controller
     public function addUpdateSubCategories(Request $request)
     {
         try {
+            $addOrUpdate = 'Add';
             $getCategories = $this->categoriesServices->getCategories();
             if (!empty($request->id)) {
+                $addOrUpdate = 'Update';
                 $getSubCategoryData = $this->subCategoriesServices->getSubCategoriesById($request->id);
-                return view('subCategories.addUpdateSubCategories', compact('getSubCategoryData', 'getCategories'));
+                return view('subCategories.addUpdateSubCategories', compact('getSubCategoryData', 'getCategories', 'addOrUpdate'));
             }
-            return view('subCategories.addUpdateSubCategories', compact('getCategories'));
+            return view('subCategories.addUpdateSubCategories', compact('getCategories', 'addOrUpdate'));
         } catch (\Exception $e) {
             Log::error('Error fetching category data for edit: ' . $e->getMessage());
             return redirect()->route('subCategories')->with('error', 'Something went wrong. Please try again.');
@@ -63,7 +65,7 @@ class SubCategoriesController extends Controller
                     })
                     ->addColumn('action', function ($row) {
                         $btn = '<a href="' . route('addUpdateSubCategories', ['id' => $row->id]) . '" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $deleteBtn = '<button onclick="confirmDelete(' . $row->id . ')" class="btn btn-danger btn-sm">Delete</button>';
+                        $deleteBtn = '<button onclick="confirmDelete(' . $row->id . ')" class="btn btn-danger btn-sm mt-2">Delete</button>';
                         return $btn . $deleteBtn;
                     })
                     ->rawColumns(['action', 'images', 'category_name'])
@@ -103,7 +105,7 @@ class SubCategoriesController extends Controller
             if ($updatedSubCategory) {
                 return redirect()->route('subCategories')->with('success', 'Sub Category updated successfully.');
             } else {
-                return redirect()->back()->with('error', 'Failed to update category.');
+                return redirect()->back()->with('error', 'Failed to update sub category.');
             }
         } catch (\Exception $e) {
             Log::error('Sub Category update failed: ' . $e->getMessage());
@@ -111,14 +113,14 @@ class SubCategoriesController extends Controller
         }
     }
 
-    public function deleteCategories(Request $request)
+    public function deleteSubCategories(Request $request)
     {
         try {
             $deleted = $this->subCategoriesServices->deleteSubCategoriesById($request->id);
             if ($deleted) {
                 return redirect()->back()->with('success', 'Sub Category deleted successfully.');
             } else {
-                return redirect()->back()->with('error', 'Failed to delete category.');
+                return redirect()->back()->with('error', 'Failed to delete sub category.');
             }
         } catch (\Exception $e) {
             Log::error('Sub Category deletion failed: ' . $e->getMessage());

@@ -7,7 +7,7 @@
     @include('message.flashMessage')
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-2">
                 <a href="{{route('addUpdateCategories')}}" class="btn btn-primary me-md-2" type="button">Add Categories</a>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

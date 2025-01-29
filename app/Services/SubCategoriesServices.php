@@ -45,8 +45,8 @@ class SubCategoriesServices
         if ($SubCategoriesRequest->hasFile('sub_category_images')) {
             $imageName = $this->uploadFile($SubCategoriesRequest->file('sub_category_images'),'sub_categories');
         } else {
-            $category = $this->getSubCategoriesById($SubCategoriesRequest->id);
-            $imageName = $category->sub_category_images;
+            $subCategory = $this->getSubCategoriesById($SubCategoriesRequest->id);
+            $imageName = $subCategory->sub_category_images;
         }
 
         $dataArrayUpdate = [

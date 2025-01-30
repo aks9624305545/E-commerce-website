@@ -24,7 +24,8 @@ class SubCategoriesController extends Controller
     {
         try {
             $pageName = $this->name;
-            return view('subCategories.showSubCategories', compact('pageName'));
+            $getCategories = $this->categoriesServices->getCategories();
+            return view('subCategories.showSubCategories', compact('pageName', 'getCategories'));
         } catch (\Exception $e) {
             Log::error('Error displaying sub categories page: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong while loading the sub categories page.');
@@ -52,7 +53,7 @@ class SubCategoriesController extends Controller
     {
         try {
             if ($request->ajax()) {
-                $data = $this->subCategoriesServices->getSubCategories();
+                $data = $this->subCategoriesServices->getSubCategories($request);
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('images', function ($row) {

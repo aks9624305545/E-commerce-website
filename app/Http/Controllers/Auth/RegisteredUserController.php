@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         if(Auth::user()->is_vendor == '1'){
             return redirect(route('dashboard', absolute: false));
         }else{
-            return redirect(route('categories', absolute: false));
+            return redirect(route('profile.edit', absolute: false));
         }
     }
 }

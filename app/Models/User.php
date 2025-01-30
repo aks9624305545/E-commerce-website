@@ -22,8 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'is_deleted',
-        // 'is_vendor',
-        // 'profile_picture'
+        'profile_image',
+        'is_vendor',
     ];
 
     /**

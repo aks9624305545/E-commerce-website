@@ -13,7 +13,7 @@
                     <div class="mb-3">
                         <label for="sub_category_id" class="form-label">Select Sub Category Name</label>
                         <select class="form-select" name="sub_category_id" aria-label="Default select example">
-                            <option value="">Select Category Name</option>
+                            <option value="">Select Sub Category Name</option>
                             @foreach($getSubCategories as $subCategory)
                             <option value="{{ $subCategory->id }}" 
                                 {{ old('sub_category_id', $getProductsData->sub_category_id ?? '') == $subCategory->id ? 'selected' : '' }}>

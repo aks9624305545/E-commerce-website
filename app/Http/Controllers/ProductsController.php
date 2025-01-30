@@ -23,11 +23,13 @@ class ProductsController extends Controller
         $this->productsServices = $productsServices;
     }
 
-    public function showProducts()
+    public function showProducts(Request $request)
     {
         try {
             $pageName = $this->name;
-            return view('products.showProducts', compact('pageName'));
+            $getSubCategories = $this->subCategoriesServices->getSubCategories($request);
+            $getCategories = $this->categoriesServices->getCategories();
+            return view('products.showProducts', compact('pageName', 'getCategories', 'getSubCategories'));
         } catch (\Exception $e) {
             Log::error('Error displaying products page: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong while loading the products page.');
@@ -38,7 +40,7 @@ class ProductsController extends Controller
     {
         try {
             $addOrUpdate = 'Add';
-            $getSubCategories = $this->subCategoriesServices->getSubCategories();
+            $getSubCategories = $this->subCategoriesServices->getSubCategories($request);
             if (!empty($request->id)) {
                 $addOrUpdate = 'Update';
                 $getProductsData = $this->productsServices->getProductsById($request->id);
@@ -55,7 +57,7 @@ class ProductsController extends Controller
     {
         try {
             if ($request->ajax()) {
-                $data = $this->productsServices->getProducts();
+                $data = $this->productsServices->getProducts($request);
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('images', function ($row) {

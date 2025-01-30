@@ -8,15 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\Facades\DataTables;
-use App\Models\User;
+use App\Services\UsersServices;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
+    public $usersServices;
+    public function __construct(UsersServices $usersServices)
+    {
+        $this->usersServices = $usersServices;
+    }
+
     public function edit(Request $request): View
     {
         return view('profile.edit', [
@@ -28,7 +31,7 @@ class ProfileController extends Controller
     {
         try {
             if ($request->ajax()) {
-                $data = User::where('is_vendor','0')->get();
+                $data = $this->usersServices->UserVendorWise();
                 return Datatables::of($data)
                     ->addIndexColumn()
                     ->addColumn('action', function ($row) {
@@ -86,7 +89,7 @@ class ProfileController extends Controller
     public function deleteUsers(Request $request)
     {
         try {
-            $deleted = User::where('id', $request->id)->update(['is_deleted','1']);
+            $deleted = $this->usersServices->deleteUsersById($request->id);
             if ($deleted) {
                 return redirect()->back()->with('success', 'Products deleted successfully.');
             } else {
@@ -95,6 +98,15 @@ class ProfileController extends Controller
         } catch (\Exception $e) {
             Log::error('Products deletion failed: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Something went wrong! Please try again.');
+        }
+    }
+
+    public function profileImage(Request $request){
+        $updateProfile = $this->usersServices->updateProfileImageByUsersId($request);
+        if ($updateProfile) {
+            return redirect()->route('profile.edit')->with('success', 'Profile updated successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Failed to update Profile.');
         }
     }
 }

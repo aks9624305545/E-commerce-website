@@ -25,9 +25,13 @@ class SubCategoriesServices
         return SubCategories::create($dataArray);
     }
 
-    public function getSubCategories()
+    public function getSubCategories($request)
     {
-        return SubCategories::where('is_deleted', '0')->with('category')->get();
+        $subCategoriesQuery = SubCategories::where('is_deleted', '0')->with('category');
+        if (!empty($request->category_id)) {
+            $subCategoriesQuery->where('category_id', $request->category_id);
+        }
+        return $subCategoriesQuery->get();
     }
 
     public function getSubCategoriesById($id)

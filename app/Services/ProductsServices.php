@@ -25,9 +25,21 @@ class ProductsServices
         return Products::create($dataArray);
     }
 
-    public function getProducts()
+    public function getProducts($request)
     {
-        return Products::where('is_deleted', '0')->with('subCategory.category')->get();
+        $ProductsQuery = Products::where('is_deleted', '0')->with('subCategory.category');
+
+        if (!empty($request->category_id)) {
+            $ProductsQuery->whereHas('subCategory.category', function ($q) use ($request) {
+                $q->where('id', $request->category_id);
+            });
+        }
+
+        if (!empty($request->sub_category_id)) {
+            $ProductsQuery->where('sub_category_id', $request->sub_category_id);
+        }
+
+        return $ProductsQuery->get();
     }
 
     public function getProductsById($id)

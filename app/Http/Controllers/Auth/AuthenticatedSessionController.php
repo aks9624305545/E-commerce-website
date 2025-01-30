@@ -31,7 +31,7 @@ class AuthenticatedSessionController extends Controller
         if(Auth::user()->is_vendor == '1'){
             return redirect()->intended(route('dashboard', absolute: false));
         }else{
-            return redirect()->intended(route('categories', absolute: false));
+            return redirect()->intended(route('profile.edit', absolute: false));
         }
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('is_deleted', ['0', '1'])->default('0')->comment("0 = Active, 1 = Deleted"); 
-            // $table->string('profile_picture');
+            $table->string('profile_image')->nullable();
             $table->enum('is_vendor', ['0', '1'])->default('0')->comment("0 = Is Not Vendor, 1 = Is Vendor");
             $table->rememberToken();
             $table->timestamps();

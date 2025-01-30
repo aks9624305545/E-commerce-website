@@ -22,7 +22,9 @@ class ProductsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'sub_category_id' => 'required|exists:sub_categories,id',
+            'products_name'    => 'required|string|max:255|unique:products,products_name,' . $this->id,
+            'products_image'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
